@@ -48,10 +48,24 @@ public class DynamoDbEventRepository implements EventRepository {
     }
 
     private EventEntity toEntity(Event event) {
-        return new EventEntity(event.eventId(), event.name(), event.date(), event.location());
+        return new EventEntity(
+                event.eventId(),
+                event.name(),
+                event.date(),
+                event.location(),
+                event.totalCapacity(),
+                event.availableCapacity()
+        );
     }
 
     private Event toDomain(EventEntity entity) {
-        return new Event(entity.getEventId(), entity.getName(), entity.getDate(), entity.getLocation());
+        return new Event(
+                entity.getEventId(),
+                entity.getName(),
+                entity.getDate(),
+                entity.getLocation(),
+                entity.getTotalCapacity(),
+                entity.getAvailableCapacity()
+        );
     }
 }

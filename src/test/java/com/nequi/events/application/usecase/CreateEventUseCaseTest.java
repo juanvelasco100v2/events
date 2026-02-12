@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,7 +25,7 @@ class CreateEventUseCaseTest {
 
     @Test
     void shouldCreateEvent() {
-        Event event = new Event("1", "Concert", "2023-12-01", "Stadium");
+        Event event = new Event("1", "Concert", LocalDate.of(2023, 12, 1), "Stadium", 100, 100);
         when(eventRepository.save(event)).thenReturn(event);
 
         Event createdEvent = createEventUseCase.execute(event);

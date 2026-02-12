@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,8 +26,8 @@ class GetAllEventsUseCaseTest {
 
     @Test
     void shouldGetAllEvents() {
-        Event event1 = new Event("1", "Concert", "2023-12-01", "Stadium");
-        Event event2 = new Event("2", "Festival", "2023-12-02", "Park");
+        Event event1 = new Event("1", "Concert", LocalDate.of(2023, 12, 1), "Stadium", 100, 100);
+        Event event2 = new Event("2", "Festival", LocalDate.of(2023, 12, 2), "Park", 200, 200);
         List<Event> events = List.of(event1, event2);
         when(eventRepository.findAll()).thenReturn(events);
 
