@@ -1,6 +1,5 @@
 package com.nequi.events.infrastructure.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -14,25 +13,22 @@ import java.net.URI;
 @Configuration
 public class DynamoDbConfig {
 
-    @Value("${aws.dynamodb.endpoint}")
-    private String dynamoDbEndpoint;
+    private final AwsProperties awsProperties;
 
-    @Value("${aws.region}")
-    private String awsRegion;
-
-    @Value("${aws.access-key}")
-    private String accessKey;
-
-    @Value("${aws.secret-key}")
-    private String secretKey;
+    public DynamoDbConfig(AwsProperties awsProperties) {
+        this.awsProperties = awsProperties;
+    }
 
     @Bean
     public DynamoDbClient dynamoDbClient() {
         return DynamoDbClient.builder()
-                .endpointOverride(URI.create(dynamoDbEndpoint))
-                .region(Region.of(awsRegion))
+                .endpointOverride(URI.create(awsProperties.getDynamoDb().getEndpoint()))
+                .region(Region.of(awsProperties.getRegion()))
                 .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create(accessKey, secretKey)))
+                        AwsBasicCredentials.create(
+                                awsProperties.getAccessKey(),
+                                awsProperties.getSecretKey()
+                        )))
                 .build();
     }
 
