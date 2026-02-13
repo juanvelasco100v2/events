@@ -45,47 +45,37 @@ class DynamoDbEventRepositoryTest {
 
     @Test
     void save_ShouldPutItem() {
-        // Arrange
         Event event = new Event("1", "Concert", LocalDate.now(), "Stadium", 100, 100);
 
-        // Act
         Event result = repository.save(event);
 
-        // Assert
         assertEquals(event, result);
         verify(eventTable).putItem(any(EventEntity.class));
     }
 
     @Test
     void findById_ShouldReturnEvent_WhenExists() {
-        // Arrange
         String eventId = "1";
         EventEntity entity = new EventEntity("1", "Concert", LocalDate.now(), "Stadium", 100, 100);
         when(eventTable.getItem(any(Key.class))).thenReturn(entity);
 
-        // Act
         Optional<Event> result = repository.findById(eventId);
 
-        // Assert
         assertTrue(result.isPresent());
         assertEquals(eventId, result.get().eventId());
     }
 
     @Test
     void findById_ShouldReturnEmpty_WhenNotExists() {
-        // Arrange
         when(eventTable.getItem(any(Key.class))).thenReturn(null);
 
-        // Act
         Optional<Event> result = repository.findById("missing");
 
-        // Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     void findAll_ShouldReturnList() {
-        // Arrange
         EventEntity entity = new EventEntity("1", "Concert", LocalDate.now(), "Stadium", 100, 100);
         
         PageIterable<EventEntity> mockPageIterable = mock(PageIterable.class);
@@ -95,23 +85,18 @@ class DynamoDbEventRepositoryTest {
         when(mockPageIterable.items()).thenReturn(mockSdkIterable);
         when(mockSdkIterable.stream()).thenReturn(Stream.of(entity));
 
-        // Act
         List<Event> result = repository.findAll();
 
-        // Assert
         assertFalse(result.isEmpty());
         assertEquals("1", result.get(0).eventId());
     }
 
     @Test
     void deleteById_ShouldDeleteItem() {
-        // Arrange
         String eventId = "1";
 
-        // Act
         repository.deleteById(eventId);
 
-        // Assert
         verify(eventTable).deleteItem(any(Key.class));
     }
 }

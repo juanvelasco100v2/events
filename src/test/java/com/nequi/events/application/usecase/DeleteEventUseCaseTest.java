@@ -24,13 +24,10 @@ class DeleteEventUseCaseTest {
 
     @Test
     void execute_ShouldDeleteEvent() {
-        // Arrange
         String eventId = "1";
 
-        // Act
         deleteEventUseCase.execute(eventId);
 
-        // Assert
         verify(eventRepository).deleteById(eventId);
     }
 }

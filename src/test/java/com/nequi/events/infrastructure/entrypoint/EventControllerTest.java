@@ -50,10 +50,8 @@ class EventControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Configuración Standalone: No necesita contexto de Spring Boot completo
         mockMvc = MockMvcBuilders.standaloneSetup(eventController).build();
         
-        // Necesario para soportar LocalDate en Jackson si no está configurado por Spring
         objectMapper.findAndRegisterModules();
     }
 

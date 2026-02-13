@@ -8,18 +8,7 @@ Este proyecto implementa un servicio RESTful para gestionar eventos utilizando *
     *   **Domain**: Entidades y contratos de repositorio (sin dependencias externas).
     *   **Application (Use Cases)**: Lógica de negocio pura.
     *   **Infrastructure**: Implementación de base de datos, configuración de Spring y controladores REST.
-*   **Java Moderno**:
-    *   Uso de **Records** para modelos de dominio inmutables (`Event`).
-    *   **Virtual Threads** habilitados para alta concurrencia en operaciones I/O (`spring.threads.virtual.enabled=true`).
-*   **AWS SDK v2**: Utiliza el **DynamoDB Enhanced Client** para un mapeo de objetos intuitivo y no bloqueante.
 
-## 🛠️ Tecnologías
-
-*   Java 21+
-*   Spring Boot 3.2+
-*   AWS SDK for Java 2.x (DynamoDB Enhanced)
-*   JUnit 5 & Mockito (Testing)
-*   Gradle (Build Tool)
 
 ## 📂 Estructura del Proyecto
 
@@ -38,16 +27,6 @@ src/main/java/com/nequi/events
     └── entrypoint       # Controladores REST
 ```
 
-## ⚙️ Configuración de DynamoDB
-
-La aplicación espera una tabla en DynamoDB con la siguiente definición:
-
-*   **Nombre de la tabla**: `events`
-*   **Partition Key (Hash Key)**: `eventId` (String)
-*   **Sort Key**: *Ninguna*
-
-### Credenciales AWS
-Asegúrate de tener configuradas tus credenciales de AWS en tu entorno local (variables de entorno, archivo `~/.aws/credentials` o perfil por defecto).
 
 ## 🏃‍♂️ Cómo Ejecutar
 
@@ -86,8 +65,6 @@ La aplicación iniciará en el puerto `8080`.
 ```
 
 ## 💻 Ejemplos cURL
-
-Aquí tienes algunos comandos útiles para probar la API desde tu terminal:
 
 ### Crear un Evento
 ```bash

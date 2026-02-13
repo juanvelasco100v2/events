@@ -30,16 +30,13 @@ class GetAllEventsUseCaseTest {
 
     @Test
     void execute_ShouldReturnListOfEvents() {
-        // Arrange
         Event event1 = new Event("1", "Concert", LocalDate.now(), "Stadium", 100, 100);
         Event event2 = new Event("2", "Theater", LocalDate.now(), "Hall", 50, 50);
         List<Event> events = List.of(event1, event2);
         when(eventRepository.findAll()).thenReturn(events);
 
-        // Act
         List<Event> result = getAllEventsUseCase.execute();
 
-        // Assert
         assertEquals(events, result);
         verify(eventRepository).findAll();
     }

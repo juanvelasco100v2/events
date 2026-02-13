@@ -29,14 +29,11 @@ class CreateEventUseCaseTest {
 
     @Test
     void execute_ShouldSaveAndReturnEvent() {
-        // Arrange
         Event event = new Event("1", "Concert", LocalDate.now(), "Stadium", 100, 100);
         when(eventRepository.save(event)).thenReturn(event);
 
-        // Act
         Event result = createEventUseCase.execute(event);
 
-        // Assert
         assertEquals(event, result);
         verify(eventRepository).save(event);
     }

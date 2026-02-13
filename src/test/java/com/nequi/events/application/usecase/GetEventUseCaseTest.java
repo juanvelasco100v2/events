@@ -31,15 +31,12 @@ class GetEventUseCaseTest {
 
     @Test
     void execute_ShouldReturnEvent_WhenExists() {
-        // Arrange
         String eventId = "1";
         Event event = new Event(eventId, "Concert", LocalDate.now(), "Stadium", 100, 100);
         when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
 
-        // Act
         Optional<Event> result = getEventUseCase.execute(eventId);
 
-        // Assert
         assertTrue(result.isPresent());
         assertEquals(event, result.get());
         verify(eventRepository).findById(eventId);
