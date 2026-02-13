@@ -1,9 +1,9 @@
 package com.nequi.events.application.usecase;
 
 import com.nequi.events.domain.repository.EventRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -15,15 +15,22 @@ class DeleteEventUseCaseTest {
     @Mock
     private EventRepository eventRepository;
 
-    @InjectMocks
     private DeleteEventUseCase deleteEventUseCase;
 
+    @BeforeEach
+    void setUp() {
+        deleteEventUseCase = new DeleteEventUseCase(eventRepository);
+    }
+
     @Test
-    void shouldDeleteEvent() {
+    void execute_ShouldDeleteEvent() {
+        // Arrange
         String eventId = "1";
 
+        // Act
         deleteEventUseCase.execute(eventId);
 
+        // Assert
         verify(eventRepository).deleteById(eventId);
     }
 }

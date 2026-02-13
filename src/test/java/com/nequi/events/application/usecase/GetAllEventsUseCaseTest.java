@@ -2,9 +2,9 @@ package com.nequi.events.application.usecase;
 
 import com.nequi.events.domain.model.Event;
 import com.nequi.events.domain.repository.EventRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -21,19 +21,26 @@ class GetAllEventsUseCaseTest {
     @Mock
     private EventRepository eventRepository;
 
-    @InjectMocks
     private GetAllEventsUseCase getAllEventsUseCase;
 
+    @BeforeEach
+    void setUp() {
+        getAllEventsUseCase = new GetAllEventsUseCase(eventRepository);
+    }
+
     @Test
-    void shouldGetAllEvents() {
-        Event event1 = new Event("1", "Concert", LocalDate.of(2023, 12, 1), "Stadium", 100, 100);
-        Event event2 = new Event("2", "Festival", LocalDate.of(2023, 12, 2), "Park", 200, 200);
+    void execute_ShouldReturnListOfEvents() {
+        // Arrange
+        Event event1 = new Event("1", "Concert", LocalDate.now(), "Stadium", 100, 100);
+        Event event2 = new Event("2", "Theater", LocalDate.now(), "Hall", 50, 50);
         List<Event> events = List.of(event1, event2);
         when(eventRepository.findAll()).thenReturn(events);
 
-        List<Event> foundEvents = getAllEventsUseCase.execute();
+        // Act
+        List<Event> result = getAllEventsUseCase.execute();
 
-        assertEquals(events, foundEvents);
+        // Assert
+        assertEquals(events, result);
         verify(eventRepository).findAll();
     }
 }

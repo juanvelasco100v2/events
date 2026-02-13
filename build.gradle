@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.2'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
 }
 
 group = 'com.nequi'
@@ -22,10 +23,36 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation platform('software.amazon.awssdk:bom:2.21.1')
 	implementation 'software.amazon.awssdk:dynamodb-enhanced'
+	
+	// Jackson Databind y soporte para Java 8 Dates (LocalDate, etc.)
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+tasks.named('jacocoTestReport') {
+	dependsOn test
+	
+	reports {
+		xml.required = true
+		html.required = true
+	}
+
+	def excludes = [
+		'**/config/**',
+		'**/dto/**',
+		'**/entity/**',
+		'**/EventsApplication.class'
+	]
+
+	classDirectories.setFrom(files(classDirectories.files.collect {
+		fileTree(dir: it, exclude: excludes)
+	}))
 }
